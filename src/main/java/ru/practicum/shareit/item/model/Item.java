@@ -25,6 +25,7 @@ public class Item {
     @JsonIgnore
     private transient ItemStatus itemStatus;
 
+
     @JsonIgnore
     public ItemStatus getItemStatus() {
         return ItemStatus.getStatusById(this.status != null ? this.status : 1L);
