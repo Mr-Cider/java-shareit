@@ -1,19 +1,19 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.Builder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
-@Builder
+@NoArgsConstructor
 @RequiredArgsConstructor
-public class ItemDto {
-    private Long id;
+public class NewItemDto {
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
+    @NotNull
     private ItemStatusDto status;
 }
-
