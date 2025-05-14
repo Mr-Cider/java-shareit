@@ -48,10 +48,11 @@ public class InMemoryUserStorage implements UserStorage {
     private void checkEmail(User user) {
         boolean duplicateEmail = users.values().stream().filter(u -> !u.equals(user)).map(User::getEmail)
                 .anyMatch(email -> email.equalsIgnoreCase(user.getEmail()));
-        if(duplicateEmail) {
+        if (duplicateEmail) {
             throw new DuplicateEmailException("Email должен быть уникальным");
         }
     }
+
     private void generateId(User user) {
         long id = users.keySet().stream().mapToLong(Long::longValue).max().orElse(0L) + 1;
         user.setId(id);

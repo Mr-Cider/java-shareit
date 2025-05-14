@@ -3,7 +3,6 @@ package ru.practicum.shareit.exception;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.validation.BindingResult;
-import ru.practicum.shareit.item.dto.NewItemDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

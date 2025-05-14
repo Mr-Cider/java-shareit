@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -14,7 +13,7 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Autowired
     UserStorage userStorage;
-    Map <Long,List<Item>> items = new HashMap<>();
+    Map <Long, List<Item>> items = new HashMap<>();
 
     @Override
     public Item addItem(Item item) {
