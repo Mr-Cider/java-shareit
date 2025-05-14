@@ -13,7 +13,7 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Autowired
     UserStorage userStorage;
-    Map <Long, List<Item>> items = new HashMap<>();
+    Map<Long, List<Item>> items = new HashMap<>();
 
     @Override
     public Item addItem(Item item) {
@@ -31,7 +31,7 @@ public class InMemoryItemStorage implements ItemStorage {
             throw new NotFoundException("Предмет не найден");
         }
         checkUser(item.getOwnerId());
-        List <Item> itemList = getUserItems(item.getOwnerId());
+        List<Item> itemList = getUserItems(item.getOwnerId());
         Item newItem = itemList.stream().filter(item1 -> item1.getId().equals(item.getId()))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Предмет с id " + item.getId() + "не найден"));
