@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import ru.practicum.shareit.request.dto.ItemRequestDto;
 
 @Data
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class NewItemDto {
     @NotBlank
@@ -15,5 +15,5 @@ public class NewItemDto {
     @NotBlank
     private String description;
     @NotNull
-    private ItemStatusDto status;
+    private Boolean available;
 }

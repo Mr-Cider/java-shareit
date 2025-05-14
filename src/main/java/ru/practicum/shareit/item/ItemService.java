@@ -5,7 +5,6 @@ import ru.practicum.shareit.item.dto.NewItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ItemService {
 
@@ -13,7 +12,7 @@ public interface ItemService {
 
     ItemDto updateItem(Long userId, UpdateItemDto updateItemDto);
 
-    Optional<ItemDto> getItem(Long id);
+    ItemDto getItem(Long id);
 
     List<ItemDto> getUserItems(Long id);
 

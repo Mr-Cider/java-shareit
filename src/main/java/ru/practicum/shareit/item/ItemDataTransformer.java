@@ -3,11 +3,9 @@ package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.ItemStatusDto;
 import ru.practicum.shareit.item.dto.NewItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.model.ItemStatus;
 
 @Service
 public class ItemDataTransformer {
@@ -17,17 +15,18 @@ public class ItemDataTransformer {
                 .ownerId(userId)
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
-                .status(itemDto.getStatus().getId())
+                .itemRequest(itemDto.getRequest() != null ? itemDto.getRequest() : null)
+                .available(itemDto.getAvailable())
                 .build();
     }
 
     public ItemDto convertToItemDto(Item item) {
-        ItemStatusDto itemStatusDto = convertToItemStatusDto(item.getItemStatus());
         return ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .status(itemStatusDto)
+                .request(item.getItemRequest() != null ? item.getItemRequest() : null)
+                .available(item.getAvailable())
                 .build();
     }
 
@@ -36,6 +35,7 @@ public class ItemDataTransformer {
                 .ownerId(userId)
                 .name(newItemDto.getName())
                 .description(newItemDto.getDescription())
+                .available(newItemDto.getAvailable())
                 .build();
     }
 
@@ -45,13 +45,8 @@ public class ItemDataTransformer {
                 .ownerId(userId)
                 .name(updateItemDto.getName())
                 .description(updateItemDto.getDescription())
-                .build();
-    }
-
-    public ItemStatusDto convertToItemStatusDto(ItemStatus itemStatus) {
-        return ItemStatusDto.builder()
-                .id(itemStatus.getId())
-                .name(itemStatus.getName())
+                .itemRequest(updateItemDto.getRequest() != null ? updateItemDto.getRequest() : null)
+                .available(updateItemDto.getAvailable())
                 .build();
     }
 }

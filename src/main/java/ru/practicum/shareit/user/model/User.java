@@ -1,17 +1,16 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.model;
 
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 
 /**
  * TODO Sprint add-controllers.
  */
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class User {
     private Long id;
     @Email

@@ -7,11 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class UpdateItemDto {
-    @NotNull
     private Long id;
     private String name;
     private String description;
-    private ItemStatusDto status;
+    private Long request;
+    private Boolean available;
 }

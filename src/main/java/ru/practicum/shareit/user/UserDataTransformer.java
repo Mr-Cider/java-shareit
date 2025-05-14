@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.model.User;
 
 @Service
 public class UserDataTransformer {
@@ -15,9 +16,9 @@ public class UserDataTransformer {
                 .build();
     }
 
-    public User convertUpdateUser(UpdateUserDto updateUserDto) {
+    public User convertUpdateUser(Long userId, UpdateUserDto updateUserDto) {
         return User.builder()
-                .id(updateUserDto.getId())
+                .id(userId)
                 .email(updateUserDto.getEmail())
                 .name(updateUserDto.getName())
                 .build();

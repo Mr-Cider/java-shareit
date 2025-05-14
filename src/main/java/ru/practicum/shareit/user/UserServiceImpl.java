@@ -6,8 +6,7 @@ import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
-
-import java.util.List;
+import ru.practicum.shareit.user.model.User;
 
 @Service
 @RequiredArgsConstructor
@@ -15,11 +14,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserStorage userStorage;
     private final UserDataTransformer dataTransformer;
-
-    @Override
-    public List<UserDto> getUsers() {
-        return userStorage.getUsers().stream().map(dataTransformer::convertToUserDto).toList();
-    }
 
     @Override
     public UserDto getUser(long id) {
@@ -33,8 +27,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(UpdateUserDto userDto) {
-        User user = userStorage.updateUser(dataTransformer.convertUpdateUser(userDto));
+    public UserDto updateUser(Long userId, UpdateUserDto userDto) {
+        User user = userStorage.updateUser(dataTransformer.convertUpdateUser(userId, userDto));
         return dataTransformer.convertToUserDto(user);
-    } // ДОДЕЛАТЬ ОБНОВЛЕНИЕ ПОЛЬЗОВАТЕЛЯ, ЕСЛИ ПОЛЬЗОВАТЕЛЬ НЕ ЗАПОЛНЯЛ НЕКОТОРЫЕ ПОЛЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        userStorage.deleteUser(userId);
+    }
 }

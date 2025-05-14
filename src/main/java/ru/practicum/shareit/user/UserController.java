@@ -1,16 +1,14 @@
 package ru.practicum.shareit.user;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import ru.practicum.shareit.exception.Checkers;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
-
-import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
@@ -23,25 +21,31 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public List<UserDto> getUsers() {
-        return userService.getUsers();
-    }
-
-    @GetMapping
-    public UserDto getUser(@RequestParam int id) {
-
+    @GetMapping("/{userId}")
+    public UserDto getUser(@PathVariable Long userId) {
+        log.info("Запрос пользователя с id {}", userId);
+        return userService.getUser(userId);
     }
 
     @PostMapping
-    public UserDto createUser(@RequestBody NewUserDto newUser, BindingResult bindingResult, WebRequest request) {
+    public UserDto createUser(@Valid @RequestBody NewUserDto newUser, BindingResult bindingResult) {
+        log.info("Создание пользователя");
         Checkers.checkErrorValidation(bindingResult, log);
+        log.trace("Валидация прошла успешно");
         return userService.createUser(newUser);
     }
 
-    @PatchMapping
-    public UserDto updateUser(@RequestHeader ("X-Later-User-Id") Long userId, UpdateUserDto updateUser, BindingResult bindingResult, WebRequest request) {
+    @PatchMapping("/{userId}")
+    public UserDto updateUser(@PathVariable Long userId, @Valid @RequestBody UpdateUserDto updateUser, BindingResult bindingResult) {
+        log.info("Обновление пользователя с id {}", userId);
         Checkers.checkErrorValidation(bindingResult, log);
-        return userService.updateUser(updateUser);
+        log.trace("Валидация прошла успешно");
+        return userService.updateUser(userId, updateUser);
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable Long userId) {
+        log.info("Удаление пользователя с id {}", userId);
+        userService.deleteUser(userId);
     }
 }

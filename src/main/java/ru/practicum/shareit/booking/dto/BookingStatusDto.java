@@ -1,13 +1,13 @@
-package ru.practicum.shareit.item.dto;
+package ru.practicum.shareit.booking.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@Builder
 @RequiredArgsConstructor
-public class ItemStatusDto {
+@AllArgsConstructor
+public class BookingStatusDto {
     private long id;
     private String name;
 }

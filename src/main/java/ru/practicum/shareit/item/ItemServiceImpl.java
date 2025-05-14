@@ -2,13 +2,12 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.NewItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.model.Item;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +30,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Optional<ItemDto> getItem(Long id) {
-//        return itemStorage.getItem(id).map(dataTransformer::convertToItemDto);
-        return null;
+    public ItemDto getItem(Long id) {
+        return itemStorage.getItem(id).stream().map(dataTransformer::convertToItemDto).findFirst()
+                .orElseThrow(() -> new NotFoundException("Предмет с id " + id + "не найден"));
     }
 
     @Override
