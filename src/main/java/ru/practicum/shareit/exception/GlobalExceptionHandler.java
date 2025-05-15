@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionHendler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -45,7 +45,7 @@ public class ExceptionHendler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleBadRequestException(DuplicateEmailException e, WebRequest request) {
+    public ErrorResponse handleDuplicateEmailException(DuplicateEmailException e, WebRequest request) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage(),
                 request.getDescription(false).replace("uri",""));

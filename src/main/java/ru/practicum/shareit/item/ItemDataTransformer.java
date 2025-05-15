@@ -1,16 +1,12 @@
 package ru.practicum.shareit.item;
-
-
-import org.springframework.stereotype.Service;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.NewItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.model.Item;
 
-@Service
 public class ItemDataTransformer {
 
-    public Item convertToItem(Long userId, ItemDto itemDto) {
+    public static Item convertToItem(Long userId, ItemDto itemDto) {
         return Item.builder()
                 .ownerId(userId)
                 .name(itemDto.getName())
@@ -20,7 +16,7 @@ public class ItemDataTransformer {
                 .build();
     }
 
-    public ItemDto convertToItemDto(Item item) {
+    public static ItemDto convertToItemDto(Item item) {
         return ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
@@ -30,7 +26,7 @@ public class ItemDataTransformer {
                 .build();
     }
 
-    public Item convertNewItemDto(Long userId, NewItemDto newItemDto) {
+    public static Item convertNewItemDto(Long userId, NewItemDto newItemDto) {
         return Item.builder()
                 .ownerId(userId)
                 .name(newItemDto.getName())
@@ -39,7 +35,7 @@ public class ItemDataTransformer {
                 .build();
     }
 
-    public Item convertUpdateItemToItem(Long userId, UpdateItemDto updateItemDto) {
+    public static Item convertUpdateItemToItem(Long userId, UpdateItemDto updateItemDto) {
         return Item.builder()
                 .id(updateItemDto.getId())
                 .ownerId(userId)

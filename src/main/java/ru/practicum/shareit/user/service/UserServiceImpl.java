@@ -1,8 +1,10 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.user.UserDataTransformer;
+import ru.practicum.shareit.user.repository.UserStorage;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -13,23 +15,22 @@ import ru.practicum.shareit.user.model.User;
 public class UserServiceImpl implements UserService {
 
     private final UserStorage userStorage;
-    private final UserDataTransformer dataTransformer;
 
     @Override
     public UserDto getUser(long id) {
-        return userStorage.getUser(id).map(dataTransformer::convertToUserDto).orElseThrow(() -> new NotFoundException("Пользователь с ID " + id + "не найден"));
+        return userStorage.getUser(id).map(UserDataTransformer::convertToUserDto).orElseThrow(() -> new NotFoundException("Пользователь с ID " + id + "не найден"));
     }
 
     @Override
     public UserDto createUser(NewUserDto newUserDto) {
-        User user = userStorage.addUser(dataTransformer.convertNewUser(newUserDto));
-        return dataTransformer.convertToUserDto(user);
+        User user = userStorage.addUser(UserDataTransformer.convertNewUser(newUserDto));
+        return UserDataTransformer.convertToUserDto(user);
     }
 
     @Override
     public UserDto updateUser(Long userId, UpdateUserDto userDto) {
-        User user = userStorage.updateUser(dataTransformer.convertUpdateUser(userId, userDto));
-        return dataTransformer.convertToUserDto(user);
+        User user = userStorage.updateUser(UserDataTransformer.convertUpdateUser(userId, userDto));
+        return UserDataTransformer.convertToUserDto(user);
     }
 
     @Override

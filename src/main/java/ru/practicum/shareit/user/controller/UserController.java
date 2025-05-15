@@ -1,11 +1,14 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exception.Checkers;
+import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -17,12 +20,13 @@ import ru.practicum.shareit.user.dto.UserDto;
 @Slf4j
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public UserDto getUser(@PathVariable Long userId) {
+    public UserDto getUser(@PathVariable @Positive Long userId) {
         log.info("Запрос пользователя с id {}", userId);
         return userService.getUser(userId);
     }
@@ -36,7 +40,7 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@PathVariable Long userId, @Valid @RequestBody UpdateUserDto updateUser, BindingResult bindingResult) {
+    public UserDto updateUser(@PathVariable @Positive Long userId, @Valid @RequestBody UpdateUserDto updateUser, BindingResult bindingResult) {
         log.info("Обновление пользователя с id {}", userId);
         Checkers.checkErrorValidation(bindingResult, log);
         log.trace("Валидация прошла успешно");
@@ -44,7 +48,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long userId) {
+    public void deleteUser(@PathVariable @Positive Long userId) {
         log.info("Удаление пользователя с id {}", userId);
         userService.deleteUser(userId);
     }

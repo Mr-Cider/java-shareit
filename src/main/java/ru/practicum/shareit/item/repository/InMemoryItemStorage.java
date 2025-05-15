@@ -1,10 +1,10 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.UserStorage;
+import ru.practicum.shareit.user.repository.UserStorage;
 
 import java.util.*;
 
@@ -17,7 +17,6 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Override
     public Item addItem(Item item) {
-        checkUser(item.getOwnerId());
         generateId(item);
         List<Item> itemList = items.computeIfAbsent(item.getOwnerId(), k -> new ArrayList<>());
         itemList.add(item);
@@ -30,7 +29,6 @@ public class InMemoryItemStorage implements ItemStorage {
         if (item == null || item.getId() == null || item.getOwnerId() == null) {
             throw new NotFoundException("Предмет не найден");
         }
-        checkUser(item.getOwnerId());
         List<Item> itemList = getUserItems(item.getOwnerId());
         Item newItem = itemList.stream().filter(item1 -> item1.getId().equals(item.getId()))
                 .findFirst()
@@ -62,12 +60,6 @@ public class InMemoryItemStorage implements ItemStorage {
                 .filter(Item::getAvailable)
                 .filter(item -> item.getName().toLowerCase().contains(text.toLowerCase()) ||
                 item.getDescription().toLowerCase().contains(text.toLowerCase())).toList();
-    }
-
-    private void checkUser(Long userId) {
-        if (userStorage.getUser(userId).isEmpty()) {
-            throw new NotFoundException("Пользователь с id " + userId + " не найден");
-        }
     }
 
     private void generateId(Item item) {
