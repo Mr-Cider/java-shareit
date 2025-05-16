@@ -1,10 +1,8 @@
 package ru.practicum.shareit.item.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.repository.UserStorage;
 
 import java.util.*;
 
