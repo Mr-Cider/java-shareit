@@ -11,9 +11,7 @@ import java.util.*;
 @Repository
 public class InMemoryItemStorage implements ItemStorage {
 
-    @Autowired
-    UserStorage userStorage;
-    Map<Long, List<Item>> items = new HashMap<>();
+    private final Map<Long, List<Item>> items = new HashMap<>();
 
     @Override
     public Item addItem(Item item) {
