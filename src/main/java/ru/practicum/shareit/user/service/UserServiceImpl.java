@@ -17,8 +17,9 @@ public class UserServiceImpl implements UserService {
     private final UserStorage userStorage;
 
     @Override
-    public UserDto getUser(long id) {
-        return userStorage.getUser(id).map(UserDataTransformer::convertToUserDto).orElseThrow(() -> new NotFoundException("Пользователь с ID " + id + "не найден"));
+    public UserDto getUser(Long id) {
+        return userStorage.findById(id)
+                .map(UserDataTransformer::convertToUserDto).orElseThrow(() -> new NotFoundException("Пользователь с ID " + id + "не найден"));
     }
 
     @Override
