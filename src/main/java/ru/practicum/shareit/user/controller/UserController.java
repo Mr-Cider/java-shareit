@@ -32,17 +32,15 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody NewUserDto newUser, BindingResult bindingResult) {
+    public UserDto createUser(@Valid @RequestBody NewUserDto newUser) {
         log.info("Создание пользователя");
-        Checkers.checkErrorValidation(bindingResult, log);
         log.trace("Валидация прошла успешно");
         return userService.createUser(newUser);
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@PathVariable @Positive Long userId, @Valid @RequestBody UpdateUserDto updateUser, BindingResult bindingResult) {
+    public UserDto updateUser(@PathVariable @Positive Long userId, @Valid @RequestBody UpdateUserDto updateUser) {
         log.info("Обновление пользователя с id {}", userId);
-        Checkers.checkErrorValidation(bindingResult, log);
         log.trace("Валидация прошла успешно");
         return userService.updateUser(userId, updateUser);
     }
