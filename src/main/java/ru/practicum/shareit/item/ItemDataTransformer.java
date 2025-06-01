@@ -28,16 +28,6 @@ public class ItemDataTransformer {
                 .build();
     }
 
-    public static Item convertUpdateItemDtoToItem(User owner, UpdateItemDto updateItemDto) {
-        return Item.builder()
-                .id(updateItemDto.getId())
-                .owner(owner)
-                .name(updateItemDto.getName())
-                .description(updateItemDto.getDescription())
-                .available(updateItemDto.getAvailable())
-                .build();
-    }
-
     public static Comment convertToComment(User author, Item item, NewCommentDto newCommentDto) {
         return Comment.builder()
                 .text(newCommentDto.getText())

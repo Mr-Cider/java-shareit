@@ -21,25 +21,6 @@ public class BookingDataTransformer {
                 .start(booking.getStartDate())
                 .end(booking.getEndDate())
                 .item(ItemDataTransformer.convertToItemDto(booking.getItem()))
-                .build();
-    }
-
-    public static BookingApprovedDto convertToBookingApprovedDto(Booking booking) {
-        return BookingApprovedDto.builder()
-                .id(booking.getId())
-                .start(booking.getStartDate())
-                .end(booking.getEndDate())
-                .item(ItemDataTransformer.convertToItemDto(booking.getItem()))
-                .status(booking.getBookingStatus().name())
-                .build();
-    }
-
-    public static BookingWithStatusDto convertToBookingWithStatusDto(Booking booking) {
-        return BookingWithStatusDto.builder()
-                .id(booking.getId())
-                .start(booking.getStartDate())
-                .end(booking.getEndDate())
-                .item(ItemDataTransformer.convertToItemDto(booking.getItem()))
                 .booker(UserDataTransformer.convertToUserDto(booking.getBooker()))
                 .status(booking.getBookingStatus().name())
                 .build();
@@ -53,5 +34,4 @@ public class BookingDataTransformer {
                 .end(booking.getEndDate())
                 .build();
     }
-
 }

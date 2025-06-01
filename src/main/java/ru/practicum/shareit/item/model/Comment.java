@@ -3,8 +3,6 @@ package ru.practicum.shareit.item.model;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.practicum.shareit.user.model.User;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

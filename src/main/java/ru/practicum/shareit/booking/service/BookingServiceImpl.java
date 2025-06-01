@@ -37,7 +37,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Transactional
     @Override
-    public BookingWithStatusDto createBooking(Long userId, NewBookingDto newBookingDto) {
+    public BookingDto createBooking(Long userId, NewBookingDto newBookingDto) {
         User user = checkUser(userId);
         Item item = checkItem(newBookingDto.getItemId());
         if (!item.getAvailable()) throw new IncorrectStatusException("Предмет с id " +
@@ -45,12 +45,12 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = BookingDataTransformer.convertNewBookingDto(newBookingDto);
         booking.setBooker(user);
         booking.setItem(item);
-        return BookingDataTransformer.convertToBookingWithStatusDto(bookingStorage.save(booking));
+        return BookingDataTransformer.convertToBookingDto(bookingStorage.save(booking));
     }
 
     @Transactional
     @Override
-    public BookingWithStatusDto approveOrRejectBooking(Long userId, Long bookingId, Boolean approved) {
+    public BookingDto approveOrRejectBooking(Long userId, Long bookingId, Boolean approved) {
         int updated = bookingStorage.approveOrRejectBooking(userId, bookingId, approvedStatus(approved));
         if (updated == 0) {
             throw new ForbiddenAccessException("У владельца + " + userId +
@@ -60,14 +60,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingWithStatusDto getBookingApproved(Long userId, Long bookingId) {
+    public BookingDto getBookingApproved(Long userId, Long bookingId) {
         Booking booking = bookingStorage.getBookingApproved(userId, bookingId)
                 .orElseThrow(() -> new NotFoundException("Бронирование не найдено"));
-        return BookingDataTransformer.convertToBookingWithStatusDto(booking);
+        return BookingDataTransformer.convertToBookingDto(booking);
     }
 
     @Override
-    public List<BookingWithStatusDto> getBookingState(Long userId, State state) {
+    public List<BookingDto> getBookingState(Long userId, State state) {
         switch (state) {
             case CURRENT -> {
                 List<Booking> bookings = bookingStorage
@@ -96,7 +96,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingWithStatusDto> getOwnerBookingState(Long ownerId, State state) {
+    public List<BookingDto> getOwnerBookingState(Long ownerId, State state) {
         itemStorage.findAllByOwnerId(ownerId).stream().findFirst()
                 .orElseThrow(() -> new NotFoundException("У пользователя с id " + " нет ни одной вещи"));
         switch (state) {
@@ -137,20 +137,20 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new NotFoundException("Пользователь с id " + userId + " не найден"));
     }
 
-    private List<BookingWithStatusDto> getBookingWithStatus(Long userId, BookingStatus status) {
+    private List<BookingDto> getBookingWithStatus(Long userId, BookingStatus status) {
         List<Booking> bookings = bookingStorage.findByBookerIdAndBookingStatus(userId, status);
         return convertToDtoList(bookings);
     }
 
-    private List<BookingWithStatusDto> getOwnerBookingWithStatus(Long ownerId, BookingStatus status) {
+    private List<BookingDto> getOwnerBookingWithStatus(Long ownerId, BookingStatus status) {
         List<Booking> bookings = bookingStorage.getOwnerBookingsWithStatus(ownerId, status);
         return convertToDtoList(bookings);
     }
 
-    private List<BookingWithStatusDto> convertToDtoList(List<Booking> bookings) {
+    private List<BookingDto> convertToDtoList(List<Booking> bookings) {
         return bookings.stream()
-                .map(BookingDataTransformer::convertToBookingWithStatusDto)
-                .sorted(Comparator.comparing(BookingWithStatusDto::getStart))
+                .map(BookingDataTransformer::convertToBookingDto)
+                .sorted(Comparator.comparing(BookingDto::getStart))
                 .collect(Collectors.toList());
     }
 
