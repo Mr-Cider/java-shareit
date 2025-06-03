@@ -48,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto updateItem(Long userId, UpdateItemDto updateItemDto) {
         Item item = getItemOrThrow(updateItemDto.getId(), userId);
         updateFields(item, updateItemDto);
-        return ItemDataTransformer.convertToItemDto(itemStorage.save(item));
+        return ItemDataTransformer.convertToItemDto(item);
     }
 
     @Override

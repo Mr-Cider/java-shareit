@@ -39,8 +39,7 @@ public class UserServiceImpl implements UserService {
         checkEmail(userDto.getEmail());
         User user = getUserOrThrow(userId);
         updateFields(user, userDto);
-        userStorage.save(user);
-        return UserDataTransformer.convertToUserDto(userStorage.save(user));
+        return UserDataTransformer.convertToUserDto(user);
     }
 
     @Transactional

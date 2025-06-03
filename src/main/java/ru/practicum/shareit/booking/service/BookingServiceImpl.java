@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Slf4j //убрать
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BookingServiceImpl implements BookingService {
