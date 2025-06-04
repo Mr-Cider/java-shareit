@@ -4,10 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.exception.Checkers;
 import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
@@ -32,17 +30,15 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody NewUserDto newUser, BindingResult bindingResult) {
+    public UserDto createUser(@Valid @RequestBody NewUserDto newUser) {
         log.info("Создание пользователя");
-        Checkers.checkErrorValidation(bindingResult, log);
         log.trace("Валидация прошла успешно");
         return userService.createUser(newUser);
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@PathVariable @Positive Long userId, @Valid @RequestBody UpdateUserDto updateUser, BindingResult bindingResult) {
+    public UserDto updateUser(@PathVariable @Positive Long userId, @Valid @RequestBody UpdateUserDto updateUser) {
         log.info("Обновление пользователя с id {}", userId);
-        Checkers.checkErrorValidation(bindingResult, log);
         log.trace("Валидация прошла успешно");
         return userService.updateUser(userId, updateUser);
     }

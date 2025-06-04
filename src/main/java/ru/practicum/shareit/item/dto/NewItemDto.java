@@ -2,11 +2,13 @@ package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewItemDto {
     @NotBlank
     private String name;
