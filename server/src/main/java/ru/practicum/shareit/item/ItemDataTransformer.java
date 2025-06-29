@@ -3,7 +3,6 @@ import ru.practicum.shareit.booking.dto.BookingDateDto;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.dto.ItemRequestWithResponseDto;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
