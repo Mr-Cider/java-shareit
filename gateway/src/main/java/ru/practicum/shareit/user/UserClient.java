@@ -9,6 +9,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.user.dto.NewUserDto;
@@ -20,6 +21,10 @@ import java.util.Map;
 @Validated
 public class UserClient extends BaseClient {
     private static final String API_PREFIX = "/users";
+
+    public RestTemplate getRestTemplate() {
+        return super.rest;
+    }
 
     @Autowired
     public UserClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
@@ -53,7 +58,7 @@ public class UserClient extends BaseClient {
         Map<String, Object> parameters = Map.of(
                 "userId", userId
         );
-        delete("userId", userId, parameters);
+        delete("/{userId}", userId, parameters);
         return ResponseEntity.noContent().build();
     }
 }

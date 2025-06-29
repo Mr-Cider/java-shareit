@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.practicum.shareit.BaseClassForTests.X_SHARER_USER_ID;
+import static ru.practicum.shareit.ShareItServerTests.X_SHARER_USER_ID;
 
 @AutoConfigureMockMvc
 @WebMvcTest(controllers = RequestController.class)

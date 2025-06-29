@@ -1,28 +1,35 @@
-package ru.practicum.shareit;
+package ru.practicum.shareit.ItemTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.item.ItemClient;
 import ru.practicum.shareit.item.ItemController;
-import ru.practicum.shareit.item.dto.NewCommentDto;
-import ru.practicum.shareit.item.dto.NewItemDto;
+import ru.practicum.shareit.item.dto.*;
 import org.springframework.http.MediaType;
-import ru.practicum.shareit.item.dto.UpdateItemDto;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.practicum.shareit.BaseClassForTests.X_SHARER_USER_ID;
 
-@DisplayName("Item Controller Validation Test")
+import static ru.practicum.shareit.ShareItGatewayTest.X_SHARER_USER_ID;
+
+@DisplayName("Item Controller Test")
 @WebMvcTest(ItemController.class)
-public class ItemControllerValidationTest {
+public class ItemControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -30,14 +37,39 @@ public class ItemControllerValidationTest {
     @MockBean
     private ItemClient itemClient;
 
-    @DisplayName("Корректная сериализация новой вещи")
-    @Test
-    public void newItemCorrectSerialization() throws Exception {
-        NewItemDto newItemDto = NewItemDto.builder()
+    NewItemDto newItemDto;
+
+    ItemDto itemDto;
+
+    ItemWithBookingsDto itemWithBookingsDto;
+
+
+
+    @BeforeEach
+    void setUp() {
+        newItemDto = NewItemDto.builder()
                 .name("correctName")
                 .description("correctDescription")
                 .available(true)
                 .build();
+        itemDto = ItemDto.builder()
+                .id(1L)
+                .name("correctName")
+                .description("correctDescription")
+                .available(true)
+                .build();
+        itemWithBookingsDto = ItemWithBookingsDto.builder()
+                .id(1L)
+                .name("correctName")
+                .description("correctDescription")
+                .available(true)
+                .build();
+    }
+
+    @DisplayName("Корректная сериализация новой вещи")
+    @Test
+    public void newItemCorrectSerialization() throws Exception {
+
         String json = objectMapper.writeValueAsString(newItemDto);
         NewItemDto deserializedItemDto = objectMapper.readValue(json, NewItemDto.class);
         assertThat(deserializedItemDto.getName()).isEqualTo(newItemDto.getName());
@@ -189,11 +221,117 @@ public class ItemControllerValidationTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("Получение вещей пользователя")
+    @Test
+    public void shouldGetUserItems() throws Exception {
 
+        when(itemClient.getUserItems(1L)).thenReturn(ResponseEntity.ok(List.of(itemDto)));
+        mockMvc.perform(get("/items")
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
 
+    @DisplayName("Получение пустого списка вещей пользователя")
+    @Test
+    public void shouldGetUserItemsIsEmpty() throws Exception {
 
+        when(itemClient.getUserItems(1L)).thenReturn(ResponseEntity.ok(Collections.emptyList()));
+        mockMvc.perform(get("/items")
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
 
+    @DisplayName("Получение вещи пользователя по id юзера и id вещи")
+    @Test
+    public void shouldGetItem() throws Exception {
+        when(itemClient.getItem(1L, 1L)).thenReturn(ResponseEntity.ok(itemWithBookingsDto));
+        mockMvc.perform(get("/items/1")
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(itemWithBookingsDto.getId()))
+                .andExpect(jsonPath("$.name").value(itemWithBookingsDto.getName()))
+                .andExpect(jsonPath("$.description").value(itemWithBookingsDto.getDescription()))
+                .andExpect(jsonPath("$.available").value(itemWithBookingsDto.getAvailable()));
+    }
 
+    @DisplayName("Создание вещи")
+    @Test
+    public void shouldCreateItem() throws Exception {
+        NewItemDto newItemDto = NewItemDto.builder()
+                .name("name")
+                .description("description")
+                .available(true)
+                .build();
+        when(itemClient.createItem(1L, newItemDto)).thenReturn(ResponseEntity.ok(itemDto));
+        mockMvc.perform(post("/items")
+                        .content(objectMapper.writeValueAsString(newItemDto))
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(itemDto.getId()))
+                .andExpect(jsonPath("$.name").value(itemDto.getName()))
+                .andExpect(jsonPath("$.description").value(itemDto.getDescription()));
+    }
 
+    @DisplayName("Обновление вещи")
+    @Test
+    public void shouldUpdateItem() throws Exception {
+        UpdateItemDto updateItemDto = UpdateItemDto.builder()
+                .id(1L)
+                .name("correctName")
+                .description("correctDescription")
+                .available(true)
+                .build();
+        when(itemClient.updateItem(1L, 1L, updateItemDto)).thenReturn(ResponseEntity.ok(itemDto));
+        mockMvc.perform(patch("/items/1")
+                        .content(objectMapper.writeValueAsString(updateItemDto))
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value(updateItemDto.getName()))
+                .andExpect(jsonPath("$.description").value(updateItemDto.getDescription()));
+    }
+
+    @DisplayName("Поиск вещи по имени или описанию")
+    @Test
+    public void shouldSearchItemsByNameOrDescription() throws Exception {
+        when(itemClient.searchItemsByNameOrDescription("name")).thenReturn(ResponseEntity.ok(List.of(itemDto)));
+        mockMvc.perform(get("/items/search?text=name")
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @DisplayName("Добавление комментариев")
+    @Test
+    public void shouldAddComment() throws Exception {
+        NewCommentDto newCommentDto = NewCommentDto.builder()
+                .text("textForComment")
+                .build();
+        CommentDto commentDto = CommentDto.builder()
+                .id(1L)
+                .authorName("authorName")
+                .text("textForComment")
+                .item(itemDto)
+                .created(LocalDateTime.now())
+                .build();
+        when(itemClient.addComment(1L, 1L, newCommentDto)).thenReturn(ResponseEntity.ok(commentDto));
+        mockMvc.perform(post("/items/1/comment")
+                        .header(X_SHARER_USER_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newCommentDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(commentDto.getId()))
+                .andExpect(jsonPath("$.authorName").value(commentDto.getAuthorName()))
+                .andExpect(jsonPath("$.text").value(commentDto.getText()))
+                .andExpect(jsonPath("$.created").isNotEmpty());
+    }
 }
 
