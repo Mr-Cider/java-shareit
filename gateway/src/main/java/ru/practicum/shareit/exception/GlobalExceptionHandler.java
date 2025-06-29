@@ -22,34 +22,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(e, request, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(NotFoundException e, WebRequest request) {
-        log.warn(e.getMessage());
-        return buildErrorResponse(e, request, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIncorrectStatusException(IncorrectStatusException e, WebRequest request) {
-            log.warn(e.getMessage());
-            return buildErrorResponse(e, request, HttpStatus.BAD_REQUEST);
-        }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDuplicateEmailException(DuplicateEmailException e, WebRequest request) {
-        log.warn(e.getMessage());
-        return buildErrorResponse(e, request, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handleForbiddenAccessException(ForbiddenAccessException e, WebRequest request) {
-        log.warn(e.getMessage());
-        return buildErrorResponse(e, request, HttpStatus.FORBIDDEN);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request) {
@@ -59,12 +31,6 @@ public class GlobalExceptionHandler {
 
         String errorMessage = String.join(", ", errors);
         log.warn("Ошибка валидации: {}", errorMessage);
-        return buildErrorResponse(e, request, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIncorrectAccessException(IncorrectAccessException e, WebRequest request) {
         return buildErrorResponse(e, request, HttpStatus.BAD_REQUEST);
     }
 
