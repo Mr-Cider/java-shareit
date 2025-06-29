@@ -139,8 +139,8 @@ public class BookingClientTest {
                 .andExpect(method(HttpMethod.PATCH))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(correctBookingDto),
                         MediaType.APPLICATION_JSON));
-        ResponseEntity<Object> response = bookingClient.approveOrRejectBooking
-                (userDto.getId(), correctBookingDto.getId(), true);
+        ResponseEntity<Object> response = bookingClient.approveOrRejectBooking(
+                userDto.getId(), correctBookingDto.getId(), true);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         BookingDto responseBody = objectMapper.convertValue(response.getBody(), BookingDto.class);
         assertThat(responseBody).isEqualTo(correctBookingDto);

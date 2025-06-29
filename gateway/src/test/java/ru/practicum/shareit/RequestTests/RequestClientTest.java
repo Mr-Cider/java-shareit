@@ -105,8 +105,8 @@ public class RequestClientTest {
                         MediaType.APPLICATION_JSON));
         ResponseEntity<Object> response = requestClient.getUserRequests(userDto.getId());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        List<ItemRequestDto> responseBody = objectMapper.readValue
-                (objectMapper.writeValueAsString(response.getBody()), new TypeReference<List<ItemRequestDto>>() {});
+        List<ItemRequestDto> responseBody = objectMapper.readValue(
+                objectMapper.writeValueAsString(response.getBody()), new TypeReference<List<ItemRequestDto>>() {});
         assertThat(responseBody)
                 .hasSize(2)
                 .isEqualTo(requestDtoList);
