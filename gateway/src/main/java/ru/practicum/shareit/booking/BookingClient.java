@@ -47,7 +47,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getBookingApproved(long userId, Long bookingId) {
-        Map<String, Object> parameters= Map.of(
+        Map<String, Object> parameters = Map.of(
                 "bookingId", bookingId
         );
         return get("/{bookingId}", userId, parameters);

@@ -10,8 +10,6 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.request.dto.NewRequestDto;
 
-import java.util.List;
-
 @Service
 public class RequestClient extends BaseClient {
     private static final String API_PREFIX = "/requests";
