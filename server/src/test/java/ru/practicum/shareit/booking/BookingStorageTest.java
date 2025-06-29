@@ -173,7 +173,7 @@ public class BookingStorageTest {
                 .hasSize(6)
                 .anyMatch(b -> b.getBookingStatus() == BookingStatus.APPROVED)
                 .anyMatch(b -> b.getBookingStatus() == BookingStatus.REJECTED)
-                .anyMatch(b-> b.getBookingStatus() == BookingStatus.WAITING);
+                .anyMatch(b -> b.getBookingStatus() == BookingStatus.WAITING);
     }
 
     @DisplayName("Найти бронирование по id вещи")
