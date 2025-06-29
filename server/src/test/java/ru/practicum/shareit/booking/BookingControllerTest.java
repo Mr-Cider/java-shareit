@@ -135,6 +135,7 @@ public class BookingControllerTest {
                 .andExpect(jsonPath("$.booker.id").value(bookingDto.getBooker().getId()))
                 .andExpect(jsonPath("$.booker.email").value(bookingDto.getBooker().getEmail()));
     }
+
         @DisplayName("Получение подтверждения бронирования")
         @Test
         public void shouldGetBookingApproved() throws Exception {

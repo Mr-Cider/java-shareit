@@ -65,8 +65,8 @@ public class ItemStorageTest {
     @DisplayName("Найти вещи по id запроса")
     @Test
     public void shouldFindByRequestId() {
-        List<Item> findByRequest_Id = itemStorage.findByRequest_Id(1L);
-        assertThat(findByRequest_Id)
+        List<Item> findByRequestId = itemStorage.findByRequest_Id(1L);
+        assertThat(findByRequestId)
                 .hasSize(1)
                 .first()
                 .hasFieldOrPropertyWithValue("name", "itemName")

@@ -42,10 +42,10 @@ public class RequestServiceTest {
     @Test
     public void shouldCreateRequest() {
         requestService.createRequest(1L, newRequestDto);
-        TypedQuery<ItemRequest> query = em.createQuery
-                ("SELECT r FROM ItemRequest r WHERE r.description = :description", ItemRequest.class);
-        ItemRequest responseQuery = query.setParameter
-                ("description", newRequestDto.getDescription()).getSingleResult();
+        TypedQuery<ItemRequest> query = em.createQuery(
+                "SELECT r FROM ItemRequest r WHERE r.description = :description", ItemRequest.class);
+        ItemRequest responseQuery = query.setParameter(
+                "description", newRequestDto.getDescription()).getSingleResult();
         assertThat(responseQuery.getDescription()).isEqualTo(newRequestDto.getDescription());
     }
 

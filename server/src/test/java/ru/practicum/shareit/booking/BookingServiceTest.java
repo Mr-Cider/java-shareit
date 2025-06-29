@@ -37,15 +37,10 @@ public class BookingServiceTest {
     private final EntityManager em;
 
     private UserDto firstUserDto;
-
     private UserDto secondUserDto;
-
     private ItemDto itemDto;
-
     private NewBookingDto newBookingDto;
-
     private BookingDto firstBookingDto;
-
 
     @BeforeEach
     void setUp() {
@@ -99,7 +94,7 @@ public class BookingServiceTest {
 
     @DisplayName("Создание бронирования у пользователя, которого нет в бд")
     @Test
-    public void NotShouldCreateBookingByIncorrectUserId() {
+    public void notShouldCreateBookingByIncorrectUserId() {
         assertThatThrownBy(() ->
                 bookingService.createBooking(999L, newBookingDto))
                 .isInstanceOf(NotFoundException.class);
@@ -107,7 +102,7 @@ public class BookingServiceTest {
 
     @DisplayName("Создание бронирования с вещью, которой нет в бд")
     @Test
-    public void NotShouldCreateBookingByIncorrectItemId() {
+    public void notShouldCreateBookingByIncorrectItemId() {
         newBookingDto.setItemId(999L);
         assertThatThrownBy(() ->
                 bookingService.createBooking(secondUserDto.getId(), newBookingDto))
@@ -181,8 +176,7 @@ public class BookingServiceTest {
     @DisplayName("Проверить подтверждение бронирования сторонним пользователем")
     @Test
     public void notShouldGetBookingApprovedByOtherUser() {
-        assertThatThrownBy(() ->
-                bookingService.getBookingApproved(3L, 1L))
+        assertThatThrownBy(() -> bookingService.getBookingApproved(3L, 1L))
                 .isInstanceOf(NotFoundException.class);
     }
 
