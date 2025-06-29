@@ -35,6 +35,7 @@ import static ru.practicum.shareit.ShareItServerTests.X_SHARER_USER_ID;
 @DisplayName("Booking Controller Tests")
 public class BookingControllerTest {
 
+
     @Autowired
     private ObjectMapper objectMapper;
 

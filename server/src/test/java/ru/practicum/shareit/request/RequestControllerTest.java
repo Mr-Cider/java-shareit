@@ -35,6 +35,7 @@ import static ru.practicum.shareit.ShareItServerTests.X_SHARER_USER_ID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DisplayName("Request Controller Tests")
 public class RequestControllerTest {
+
     @Autowired
     private ObjectMapper objectMapper;
 
