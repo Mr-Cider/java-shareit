@@ -46,7 +46,7 @@ public class ItemStorageTest {
     public void shouldSearchItems() {
         List<Item> items = itemStorage.searchItems("item");
         assertThat(items)
-                .hasSize(1)
+                .hasSize(2)
                 .first()
                 .hasFieldOrPropertyWithValue("name", "itemName")
                 .hasFieldOrPropertyWithValue("description", "itemDescription");

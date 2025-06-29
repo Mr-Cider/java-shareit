@@ -167,7 +167,7 @@ public class ItemServiceTest {
     @Test
     public void shouldSearchItems() {
         List<ItemDto> items = itemService.searchItems("Description");
-        assertThat(items).hasSize(1);
+        assertThat(items).hasSize(2);
     }
 
     @DisplayName("Добавление комментария")

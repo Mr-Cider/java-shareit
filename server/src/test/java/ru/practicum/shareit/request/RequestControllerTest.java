@@ -81,25 +81,25 @@ public class RequestControllerTest {
         requestDto = ItemRequestDto.builder()
                 .id(1L)
                 .description("requestDescription")
-                .requestDate(LocalDateTime.now())
+                .created(LocalDateTime.now())
                 .requestor(firstUserDto)
                 .build();
         firstRequestWithResponseDto = ItemRequestWithResponseDto.builder()
                 .id(1L)
                 .description("firstRequestDescription")
-                .requestDate(LocalDateTime.now())
+                .created(LocalDateTime.now())
                 .requestor(firstUserDto)
                 .build();
         secondRequestWithResponseDto = ItemRequestWithResponseDto.builder()
                 .id(2L)
                 .description("secondRequestDescription")
-                .requestDate(LocalDateTime.now())
+                .created(LocalDateTime.now())
                 .requestor(firstUserDto)
                 .build();
         thirdRequestWithResponseDto =  ItemRequestWithResponseDto.builder()
                 .id(3L)
                 .description("thirdRequestDescription")
-                .requestDate(LocalDateTime.now())
+                .created(LocalDateTime.now())
                 .requestor(secondUserDto)
                 .build();
         
@@ -116,7 +116,7 @@ public class RequestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.description").value(requestDto.getDescription()))
-                .andExpect(jsonPath("$.requestDate").exists())
+                .andExpect(jsonPath("$.created").exists())
                 .andExpect(jsonPath("$.requestor.id").value(firstUserDto.getId()))
                 .andExpect(jsonPath("$.requestor.name").value(requestDto.getRequestor().getName()))
                 .andExpect(jsonPath("$.requestor.email").value(requestDto.getRequestor().getEmail()));
@@ -165,7 +165,7 @@ public class RequestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(firstRequestWithResponseDto.getId()))
                 .andExpect(jsonPath("$.description").value(firstRequestWithResponseDto.getDescription()))
-                .andExpect(jsonPath("$.requestDate").exists())
+                .andExpect(jsonPath("$.created").exists())
                 .andExpect(jsonPath("$.requestor.id").value(firstUserDto.getId()))
                 .andExpect(jsonPath("$.requestor.name").value(requestDto.getRequestor().getName()))
                 .andExpect(jsonPath("$.requestor.email").value(requestDto.getRequestor().getEmail()));

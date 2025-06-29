@@ -18,7 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.practicum.shareit.BaseClassForTests.X_SHARER_USER_ID;
 
+@DisplayName("Item Controller Validation Test")
 @WebMvcTest(ItemController.class)
 public class ItemControllerValidationTest {
     @Autowired
@@ -53,6 +55,7 @@ public class ItemControllerValidationTest {
                 .build();
         mockMvc.perform(post("/items")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newItemDto)))
                 .andExpect(status().isBadRequest());
 
@@ -68,6 +71,7 @@ public class ItemControllerValidationTest {
                 .build();
         mockMvc.perform(post("/items")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newItemDto)))
                 .andExpect(status().isBadRequest());
 
@@ -82,6 +86,7 @@ public class ItemControllerValidationTest {
                 .build();
         mockMvc.perform(post("/items")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newItemDto)))
                 .andExpect(status().isBadRequest());
     }
@@ -167,6 +172,7 @@ public class ItemControllerValidationTest {
                 .build();
         mockMvc.perform(post("/items/1/comment")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newCommentDto)))
                 .andExpect(status().isBadRequest());
     }
@@ -178,6 +184,7 @@ public class ItemControllerValidationTest {
                 .build();
         mockMvc.perform(post("/items/1/comment")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newCommentDto)))
                 .andExpect(status().isBadRequest());
     }

@@ -22,6 +22,10 @@ INSERT INTO requests (description, requestor_id, request_date) VALUES
 INSERT INTO items (name, description, is_available, owner_id, request_id)
 VALUES ('itemName', 'itemDescription', true, 1, 1);
 
+INSERT INTO items (name, description, is_available, owner_id, request_id)
+VALUES ('itemName2', 'itemDescription2', true, 2, 2);
+
+
 INSERT INTO comments (text, item_id, author_id, created) VALUES
                      ('commentForTest', 1, 1, now());
 

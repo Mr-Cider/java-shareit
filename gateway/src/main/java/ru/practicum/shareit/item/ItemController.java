@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import ru.practicum.shareit.item.dto.UpdateItemDto;
  */
 
 @RestController
+@Slf4j
 @RequestMapping("/items")
 @RequiredArgsConstructor
 @Validated
@@ -34,6 +36,7 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Object> createItem(@RequestHeader (HEADER_USER_ID) Long userId, @Valid @RequestBody NewItemDto newItemDto) {
+        log.info("Запускаем создание вещи через gateway");
         return itemClient.createItem(userId, newItemDto);
     }
 

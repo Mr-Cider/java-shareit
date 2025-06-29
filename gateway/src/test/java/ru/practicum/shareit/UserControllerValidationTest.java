@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("User Controller Validation Test")
 @WebMvcTest(UserController.class)
 public class UserControllerValidationTest {
     @Autowired

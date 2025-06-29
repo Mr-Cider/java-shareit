@@ -28,7 +28,7 @@ public class RequestDataTransformer {
                 .id(itemRequest.getId())
                 .description(itemRequest.getDescription())
                 .requestor(UserDataTransformer.convertToUserDto(itemRequest.getRequestor()))
-                .requestDate(itemRequest.getRequestDate())
+                .created(itemRequest.getRequestDate())
                 .build();
     }
 
@@ -37,7 +37,7 @@ public class RequestDataTransformer {
                 .id(itemRequest.getId())
                 .description(itemRequest.getDescription())
                 .requestor(UserDataTransformer.convertToUserDto(itemRequest.getRequestor()))
-                .requestDate(itemRequest.getRequestDate())
+                .created(itemRequest.getRequestDate())
                 .items(convertToListItemForRequestDto(items))
                 .build();
     }

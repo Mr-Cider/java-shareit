@@ -14,10 +14,12 @@ import ru.practicum.shareit.booking.dto.NewBookingDto;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.practicum.shareit.BaseClassForTests.X_SHARER_USER_ID;
 
 
 import java.time.LocalDateTime;
 
+@DisplayName("Booking Controller Validation Test")
 @WebMvcTest(BookingController.class)
 public class BookingControllerValidationTest {
     @Autowired
@@ -51,6 +53,7 @@ public class BookingControllerValidationTest {
                 .build();
         mockMvc.perform(post("/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newBookingDto)))
                 .andExpect(status().isBadRequest());
     }
@@ -64,6 +67,7 @@ public class BookingControllerValidationTest {
                 .build();
         mockMvc.perform(post("/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newBookingDto)))
                 .andExpect(status().isBadRequest());
     }
@@ -77,6 +81,7 @@ public class BookingControllerValidationTest {
                 .build();
         mockMvc.perform(post("/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(X_SHARER_USER_ID, 1L)
                         .content(objectMapper.writeValueAsString(newBookingDto)))
                 .andExpect(status().isBadRequest());
     }
