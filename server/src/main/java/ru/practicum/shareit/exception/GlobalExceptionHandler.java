@@ -16,13 +16,6 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(AnnotationValidatorException e, WebRequest request) {
-        log.warn(e.getMessage());
-        return buildErrorResponse(e, request, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(NotFoundException e, WebRequest request) {
         log.warn(e.getMessage());

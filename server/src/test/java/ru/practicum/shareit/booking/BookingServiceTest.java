@@ -10,12 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import jakarta.persistence.TypedQuery;
 import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.exception.ForbiddenAccessException;
+import ru.practicum.shareit.exception.IncorrectStatusException;
 import ru.practicum.shareit.exception.NotFoundException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import jakarta.persistence.EntityManager;
 import ru.practicum.shareit.item.dto.*;
+import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.NewBookingDto;
@@ -100,6 +103,16 @@ public class BookingServiceTest {
                 .isInstanceOf(NotFoundException.class);
     }
 
+    @DisplayName("Создание бронирования у предмета с недоступным статусом")
+    @Test
+    public void notShouldCreateBookingByItemStatusNotAvailable() {
+        Item item = em.find(Item.class, itemDto.getId());
+        item.setAvailable(false);
+        assertThatThrownBy(() ->
+                bookingService.createBooking(secondUserDto.getId(), newBookingDto))
+                .isInstanceOf(IncorrectStatusException.class);
+    }
+
     @DisplayName("Создание бронирования с вещью, которой нет в бд")
     @Test
     public void notShouldCreateBookingByIncorrectItemId() {
@@ -139,6 +152,13 @@ public class BookingServiceTest {
                     assertThat(responseQuery.getBooker().getId()).isEqualTo(2L);
                     assertThat(responseQuery.getBookingStatus()).isEqualTo(BookingStatus.REJECTED);
                 });
+    }
+
+    @DisplayName("Подтверждение бронирования сторонним пользователем")
+    @Test
+    public void shouldNotApproveOrRejectBookingByOtherUser() {
+        assertThatThrownBy(() -> bookingService.approveOrRejectBooking(999L, 999L, true))
+                .isInstanceOf(ForbiddenAccessException.class);
     }
 
     @DisplayName("Проверить подтверждение бронирования владельцем вещи")
