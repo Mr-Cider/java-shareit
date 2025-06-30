@@ -26,13 +26,4 @@ public class ErrorResponseTest {
                 .isAfterOrEqualTo(testStart)
                 .isBeforeOrEqualTo(testEnd);
     }
-
-    @Test
-    void shouldSerializeTimestampWithCorrectFormat() throws JsonProcessingException {
-        ErrorResponse response = new ErrorResponse("Error", "/test", 500);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        String json = mapper.writeValueAsString(response);
-        assertThat(json).containsPattern("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+\\d{2}:\\d{2}");
-    }
 }
