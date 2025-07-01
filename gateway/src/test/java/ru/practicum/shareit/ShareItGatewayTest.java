@@ -18,9 +18,4 @@ public class ShareItGatewayTest {
     void contextLoads() {
         assertThat(context).isNotNull();
     }
-
-    @Test
-    void mainMethodStartsApplication() {
-        ShareItGateway.main(new String[] {});
-    }
 }

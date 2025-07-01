@@ -27,7 +27,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static ru.practicum.shareit.ShareItGatewayTest.X_SHARER_USER_ID;
 
 @DisplayName("Request Client Tests")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RequestClientTest {
 
     @Autowired

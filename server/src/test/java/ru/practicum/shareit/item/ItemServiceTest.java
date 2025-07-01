@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ActiveProfiles("test")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DisplayName("Item Service Tests")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ItemServiceTest {
 
     private final ItemService itemService;

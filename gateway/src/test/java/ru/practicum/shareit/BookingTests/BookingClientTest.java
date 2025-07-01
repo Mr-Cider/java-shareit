@@ -29,7 +29,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static ru.practicum.shareit.ShareItGatewayTest.X_SHARER_USER_ID;
 
 @DisplayName("Booking Client Tests")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingClientTest {
     @Autowired
     ObjectMapper objectMapper;

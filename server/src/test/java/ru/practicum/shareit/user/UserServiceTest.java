@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ActiveProfiles("test")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DisplayName("User Service Tests")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceTest {
     private final UserService userService;
     private final EntityManager em;

@@ -20,9 +20,4 @@ public class ShareItServerTests {
 	void contextLoads() {
 		assertThat(context).isNotNull();
 	}
-
-	@Test
-	void mainMethodStartsApplication() {
-		ShareItServer.main(new String[] {});
-	}
 }

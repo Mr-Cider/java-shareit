@@ -33,7 +33,7 @@ import java.util.List;
 @ActiveProfiles("test")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DisplayName("Booking Service Tests")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingServiceTest {
     private final BookingService bookingService;
 

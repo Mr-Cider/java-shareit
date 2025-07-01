@@ -25,7 +25,7 @@ import java.util.List;
 @ActiveProfiles("test")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DisplayName("Request Service Tests")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RequestServiceTest {
     private final RequestService requestService;
     private final EntityManager em;
