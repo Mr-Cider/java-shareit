@@ -3,6 +3,7 @@ import ru.practicum.shareit.booking.dto.BookingDateDto;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
@@ -20,12 +21,18 @@ public class ItemDataTransformer {
     }
 
     public static Item convertNewItemDto(User owner, NewItemDto newItemDto) {
-        return Item.builder()
+        Item item = Item.builder()
                 .name(newItemDto.getName())
                 .owner(owner)
                 .description(newItemDto.getDescription())
                 .available(newItemDto.getAvailable())
                 .build();
+        if (newItemDto.getRequestId() != null) {
+            ItemRequest request = new ItemRequest();
+            request.setId(newItemDto.getRequestId());
+            item.setRequest(request);
+        }
+        return item;
     }
 
     public static Comment convertToComment(User author, Item item, NewCommentDto newCommentDto) {
