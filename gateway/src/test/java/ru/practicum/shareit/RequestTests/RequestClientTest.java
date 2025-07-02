@@ -98,12 +98,12 @@ public class RequestClientTest {
     @Test
     public void shouldGetRequests() throws Exception {
 
-        mockServer.expect(requestTo("http://localhost:9090/requests"))
+        mockServer.expect(requestTo("http://localhost:9090/requests?from=0&size=10"))
                 .andExpect(method(HttpMethod.GET))
                 .andExpect(header("X-Sharer-User-Id", userDto.getId().toString()))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(requestDtoList),
                         MediaType.APPLICATION_JSON));
-        ResponseEntity<Object> response = requestClient.getUserRequests(userDto.getId());
+        ResponseEntity<Object> response = requestClient.getUserRequests(userDto.getId(), 0, 10);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<ItemRequestDto> responseBody = objectMapper.readValue(
                 objectMapper.writeValueAsString(response.getBody()), new TypeReference<List<ItemRequestDto>>() {});

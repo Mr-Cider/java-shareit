@@ -2,6 +2,10 @@ package ru.practicum.shareit.request.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -22,7 +26,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
 public class RequestServiceImpl implements RequestService {
 
     private final RequestRepository requestRepository;
@@ -38,9 +41,10 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<ItemRequestWithResponseDto> getUserRequests(Long userId) {
-        List<ItemRequest> requests = requestRepository.getRequestsByRequestorId(userId);
-        return getItemRequestListForResponse(requests);
+    public Page<ItemRequestWithResponseDto> getUserRequests(Long userId, Integer from, Integer size) {
+        Pageable pageable = PageRequest.of(from / size, size);
+        Page<ItemRequest> requests = requestRepository.getRequestsByRequestorId(userId, pageable);
+        return getItemRequestPageForResponse(requests);
     }
 
     @Override
@@ -66,6 +70,14 @@ public class RequestServiceImpl implements RequestService {
                 .map(itemRequest -> RequestDataTransformer
                         .convertToItemRequestWithResponseDto(getItemsFromRequest(itemRequest.getId()), itemRequest))
                 .collect(Collectors.toList());
+    }
+
+    private Page<ItemRequestWithResponseDto> getItemRequestPageForResponse(Page<ItemRequest> requests) {
+        List<ItemRequestWithResponseDto> request = requests.stream()
+                .map(itemRequest -> RequestDataTransformer
+                        .convertToItemRequestWithResponseDto(getItemsFromRequest(itemRequest.getId()), itemRequest))
+                .collect(Collectors.toList());
+        return new PageImpl<>(request, requests.getPageable(), requests.getTotalElements());
     }
 
     private List<Item> getItemsFromRequest(Long requestId) {

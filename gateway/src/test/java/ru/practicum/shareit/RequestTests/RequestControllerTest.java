@@ -107,7 +107,7 @@ public class RequestControllerTest {
     @DisplayName("Получить запросы пользователя")
     @Test
     public void shouldGetUserRequests() throws Exception {
-        when(requestClient.getUserRequests(1L)).thenReturn(ResponseEntity.ok(requestDtoList));
+        when(requestClient.getUserRequests(1L, 0, 10)).thenReturn(ResponseEntity.ok(requestDtoList));
         mockMvc.perform(get("/requests")
                 .header(X_SHARER_USER_ID, 1L)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.request.controller.RequestController;
@@ -54,6 +56,7 @@ public class RequestControllerTest {
     private ItemRequestWithResponseDto thirdRequestWithResponseDto;
     private List<ItemRequestWithResponseDto> listFirstUserWithResponseDto;
     private List<ItemRequestWithResponseDto> listAllUserWithResponseDto;
+    private Page<ItemRequestWithResponseDto> pageFirstUserWithResponseDto;
 
     @BeforeEach
     void setUp() {
@@ -102,7 +105,9 @@ public class RequestControllerTest {
                 .build();
 
         listFirstUserWithResponseDto = Arrays.asList(firstRequestWithResponseDto, secondRequestWithResponseDto);
+
         listAllUserWithResponseDto = Collections.singletonList(thirdRequestWithResponseDto);
+        pageFirstUserWithResponseDto = new PageImpl<>(listFirstUserWithResponseDto);
     }
 
     @DisplayName("Создание пользователя")
@@ -124,8 +129,10 @@ public class RequestControllerTest {
     @DisplayName("Получение запросов пользователя")
     @Test
     public void shouldGetUserRequests() throws Exception {
-        when(requestService.getUserRequests(firstUserDto.getId())).thenReturn(listFirstUserWithResponseDto);
+        when(requestService.getUserRequests(firstUserDto.getId(), 0, 10)).thenReturn(pageFirstUserWithResponseDto);
         mockMvc.perform(get("/requests")
+                        .param("from", "0")
+                        .param("size", "10")
                         .header(X_SHARER_USER_ID, 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

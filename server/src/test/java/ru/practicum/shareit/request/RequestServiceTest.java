@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.request.dto.ItemRequestWithResponseDto;
@@ -59,7 +60,7 @@ public class RequestServiceTest {
     @DisplayName("Получение запросов пользователя")
     @Test
     public void shouldGetUserRequests() {
-        List<ItemRequestWithResponseDto> requests = requestService.getUserRequests(1L);
+        Page<ItemRequestWithResponseDto> requests = requestService.getUserRequests(1L, 0, 10);
         assertThat(requests)
                 .hasSize(1)
                 .first()

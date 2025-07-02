@@ -27,9 +27,11 @@ public class RequestController {
     }
 
     @GetMapping
-    public List<ItemRequestWithResponseDto> getUserRequests(@RequestHeader (HEADER_USER_ID) Long userId) {
+    public List<ItemRequestWithResponseDto> getUserRequests(@RequestHeader (HEADER_USER_ID) Long userId,
+                                                            @RequestParam (defaultValue = "0") Integer from,
+                                                            @RequestParam (defaultValue = "10") Integer size) {
         log.info("Получаем запросы пользователя с id {} ", userId);
-        return requestService.getUserRequests(userId);
+        return requestService.getUserRequests(userId, from, size).getContent();
     }
 
     @GetMapping("/all")
