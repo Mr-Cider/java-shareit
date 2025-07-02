@@ -185,7 +185,7 @@ public class UserControllerTest {
     public void shouldDeleteUser() throws Exception {
         when(userClient.deleteUser(1L)).thenReturn(ResponseEntity.noContent().build());
         mockMvc.perform(delete("/users/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         verify(userClient, times(1)).deleteUser(1L);
     }
 }

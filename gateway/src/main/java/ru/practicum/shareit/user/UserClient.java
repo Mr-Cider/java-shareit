@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -55,10 +56,8 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Void> deleteUser(long userId) {
-        Map<String, Object> parameters = Map.of(
-                "userId", userId
-        );
-        delete("/{userId}", userId, parameters);
-        return ResponseEntity.noContent().build();
+        ResponseEntity<Object> response = delete("/{userId}", userId,
+                Map.of("userId", userId));
+        return ResponseEntity.status(response.getStatusCode()).build();
     }
 }
