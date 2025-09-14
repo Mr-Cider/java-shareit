@@ -30,7 +30,6 @@ public class UserController {
     @PostMapping
     public UserDto createUser(@RequestBody NewUserDto newUser) {
         log.info("Создание пользователя");
-        log.trace("Валидация прошла успешно");
         return userService.createUser(newUser);
     }
 

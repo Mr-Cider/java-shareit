@@ -27,7 +27,7 @@ public class ItemController {
         return itemService.getUserItems(userId);
     }
 
-    @GetMapping("{itemId}")
+    @GetMapping("/{itemId}")
     public ItemWithBookingsDto getItem(@RequestHeader(HEADER_USER_ID) Long userId, @PathVariable("itemId") Long itemId) {
         log.info("Запрос вещи с id {}", itemId);
         return itemService.getItem(itemId, userId);
